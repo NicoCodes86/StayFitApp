@@ -5,31 +5,15 @@ import BasicMenu from './ClientDropdownMenu'
 
 
 const TrainerDashboard = () => {
-  const [clients, setClients] = useState([]);
-    console.log(clients); 
-    useEffect(() => {
-        retrieveClients();
-    }, []);
-    
-    const retrieveClients = () => {
-        stayFitDataService.getAll()
-        .then(response => {
-            setClients(response.data);
-            console.log("response data is: ")
-            console.log(response.data);
-        })
-        .catch(e => {
-            console.log(e)
-        })
-    }
 
-  return (  
+
+  return (
     <div className="trainerDashboard">
-      <ResponsiveAppBar/>
-      <BasicMenu/>
-    </div>
+      <ResponsiveAppBar />
+      <BasicMenu />
+    </div> 
   );
 }
- 
+
 export default TrainerDashboard;
 
