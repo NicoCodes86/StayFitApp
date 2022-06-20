@@ -1,30 +1,83 @@
 const db = require('../models');
-const Trainer = db.trainers;
+const Trainer = require("../models/Trainer");
+const generateToken = require('../config/generateToken');
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const saltRounds = +process.env.SALT;
 
-exports.create = (req, res) => {
-    // if(!req.body.firstName) {
-    //     res.status(400).send({message: "Cannot be empty"})
-    //     return
-    // }
+exports.create = asyncHandler(async(req, res) => {
+  const { firstName, lastName, userName, password, repeatPassword, credentials, imageUrl } = req.body;
+  
+  if(!firstName || !lastName || !userName || !password || !credentials) {
+    res.status(400).send({message: "Cannot be empty!"})
+    return
+  }
+
+  const trainerExists = await Trainer.findOne({ userName }); 
+
+  if(trainerExists) {
+    res.status(400).send({message:"User already exists!"})
+    return
+  }
+  
+  if(password !== repeatPassword) {
+    res.status(400).send({message: "Passwords do not match!"})
+    return
+  }
+
+  const salt = bcrypt.genSaltSync(saltRounds); 
+  const hash = bcrypt.hashSync(password, salt);
+  try{
     const trainer = new Trainer({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName, 
-        userName: req.body.userName,
-        password: req.body.password,
-        credentials: req.body.credentials,
-        imageUrl: req.body.imageUrl
+        firstName: firstName,
+        lastName: lastName, 
+        userName: userName,
+        password: hash, 
+        credentials: credentials,
+        imageUrl: imageUrl
     })
-   trainer
+    trainer
     .save(trainer)
     .then(data => {
         res.send(data)
     })
-    .catch(err => {
-        res.status(500).send({
-            message: err.message || "Error occured creating trainer."
-        })
-    })
-};
+
+    if(trainer) {
+      res.status(201).json({
+        _id: trainer._id,
+        firstName: trainer.firstName,
+        lastName: trainer.lastName,
+        token: generateToken(trainer._id),
+      });
+    } else {
+      res.status(400).send({message:"User not found"})
+    }
+  }catch(err){
+    console.log(err.response.status);
+    console.log(err.response.statusText);
+    console.log(err.message);
+    console.log(err.response.headers); 
+    console.log(err.response.data);
+  } 
+});
+
+exports.login = asyncHandler(async (req, res) => {
+  const { userName, password } = req.body;
+
+  const trainer = await User.findOne({userName});
+
+  if(trainer && (await user.matchPassword(password))){
+    res.json({
+      userName: user.userName,
+      password: user.password,
+      token: generateToken(user._id)
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid userName or password")
+  }
+})
+
 
 exports.findAll = (req, res) => {
     const firstName = req.query.firstName;

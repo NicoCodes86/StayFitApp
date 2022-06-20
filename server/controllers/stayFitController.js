@@ -1,5 +1,5 @@
 const db = require('../models');
-const Exercise = db.exercises;
+const Exercise = require('../models/Exercise');
 
 exports.create = (req, res) => {
     if(!req.body.name) {
@@ -35,6 +35,7 @@ exports.findAll = (req, res) => {
         res.send(data)
     })
     .catch(err => {
+      console.log("error is:")
         res.status(500).send({
             message: err.message || "Error occured trying to retrieve exercises."
         })
