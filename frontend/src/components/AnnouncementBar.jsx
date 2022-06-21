@@ -3,7 +3,9 @@ import { Paper } from "@mui/material";
 import newPersonalTrainer from '../assets/images/newPersonalTrainer.jpg'
 import rowGirl from '../assets/images/rowGirl.jpg'
 import rowGirl2 from '../assets/images/rowGirl2.jpg'
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 function Announcements(props) {
     
@@ -17,18 +19,25 @@ function Announcements(props) {
             name: "Welcome new trainer Steve!",
             description: "Steve has been a personal trainer for 8 years and specializes in core strength",
             image: newPersonalTrainer
-        },
-        
-        
-        
+        },       
     ]
 
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      lazyLoad: 'progressive'
+    };
+
     return (
-        <Carousel>
+        <Slider {...settings}>
         {
             items.map( (item, i) => <><Item key={i} item={item} /></> )
         }
-        </Carousel>
+        </Slider>
         
     )
 }

@@ -9,6 +9,9 @@ import benchPress from '../assets/images/benchPress.jpg';
 import stretchGirl from '../assets/images/stretchGirl.jpeg'
 import groupFitness from '../assets/images/groupFitness.jpg'
 import trainerPic from '../assets/images/trainerPic.png'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 function LandingPage(props) {
     var items = [
@@ -44,18 +47,30 @@ function LandingPage(props) {
       },
       {
         name: "Need some help?",
-        description: "New to the fitness seen or just need some more peronalized workouts? Our trainers here at StayFit can help you reach those fitness goals",
+        description: "New to the fitness scene or need some more peronalized workouts? Our trainers here at StayFit can help you reach your fitness goals",
         image: trainerPic,
     },
     ]
 
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      lazyLoad: 'progressive'
+    };
+
     return (
-        <Carousel>
+      <>
+        <Slider {...settings}>
         {
-            items.map( (item, i) => <Item key={i} item={item} /> )
+            items.map( (item, i) => <Item key={i} item={item} />  )
         }
-        </Carousel>
-        
+        </Slider>
+        <Intro/>
+        </>
     )
 }
     function Item(props) {
@@ -81,7 +96,7 @@ function LandingPage(props) {
               textAlign: 'center',
               color: 'white',
               textShadow: '1.5px 1.5px rgba(0,0,0,0.6)',
-              bottom: 315,
+              bottom: 185,
               left: '50%',
               transform: 'translate(-50%)',
               '@media (maxWidth: 400px)': {}
@@ -96,7 +111,7 @@ function LandingPage(props) {
                 <Button className="CheckButton" variant="textd" style={{marginTop: "10px"}}>Login</Button>
               </Link>
             </div>
-            <Intro/>
+            
           </div>
       </div>
     );

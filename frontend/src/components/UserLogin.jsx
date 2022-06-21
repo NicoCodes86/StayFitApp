@@ -7,31 +7,24 @@ import { useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import stayFitDataService from "../services/stayFitDataService";
 import ResponsiveAppBar from './Navbar'
-
 var userLoggedIn = false;
-
-const UserLogin = () => { 
+const UserLogin = () => {
   const initialLoginState = {
     userName: "",
     password: "",
     isLoading: false,
     success: false
   };
-
   const [loginInfo, setLoginInfo] = useState([initialLoginState]);
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
-
-  
   const toast = useToast();
   const navigate = useNavigate();
-  
   const handleInputChange = event => {
       event.preventDefault();
       const {name, value} = event.target;
       setLoginInfo({...loginInfo, [name]: value})
   }
-
         const submitHandler = async () => {
           setLoading(true);
           if(!loginInfo.userName || !loginInfo.password){
@@ -51,7 +44,6 @@ const UserLogin = () => {
               userName: loginInfo.userName,
               password: loginInfo.password
             }
-
             stayFitDataService.loginUser(data)
             .then(response => {
               console.log(response.data)
@@ -63,10 +55,10 @@ const UserLogin = () => {
                 position: "bottom",
               });
               setLoading(false);
-              userLoggedIn =true; 
+              userLoggedIn =true;
               console.log("ln 71 userLoggedIn: ", userLoggedIn)
               setUserName(loginInfo.userName);
-              navigate.push("/userdashboard"); // redirect to UserDashboard
+              navigate("/mainpage"); // redirect to UserDashboard
               setLoginInfo(initialLoginState);
           })
           } catch (error) {
@@ -84,7 +76,6 @@ const UserLogin = () => {
             console.log("ln 88 userLoggedIn: ", userLoggedIn)
           }
         }
-  
         return (
           <>
           <ResponsiveAppBar/>
@@ -118,14 +109,13 @@ const UserLogin = () => {
               </FormControl>
               <p style={{textAlign: "center", color:"gray", fontSize: ".8em"}}>* Required Fields</p>
               <Button onClick={submitHandler} className="CheckButton" variant="contained" size="small" sx={{marginTop: "15px"}}>Submit</Button>
-
               <br></br>
               <h5 style={{color: "gray", marginTop: "30px"}}>New User? Please Register...</h5>
               <Link to="/registerUser" style={{display: 'inline-block', textDecoration: "none"}}>
-                <Button 
-                  className="CheckButton" 
-                  variant="contained" 
-                  size="small"  
+                <Button
+                  className="CheckButton"
+                  variant="contained"
+                  size="small"
                   sx={{
                     backgroundColor: "gray",
                     marginTop: "10px"
@@ -135,13 +125,11 @@ const UserLogin = () => {
                 <Button className="CheckButton" variant="textd" style={{marginTop: "10px"}}>Trainer Login</Button>
               </Link>
             </VStack>
-          </>                   
+          </>
         );
       }
-
 export default UserLogin;
 export { userLoggedIn };
-
 
 
 
