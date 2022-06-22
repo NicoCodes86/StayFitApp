@@ -1,14 +1,14 @@
-import Carousel from "react-material-ui-carousel";
 import { Paper } from "@mui/material";
 import Button  from "@mui/material/Button";
 import Intro from "./Intro";
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import Delete from '@mui/icons-material/Delete';
 import {Link} from 'react-router-dom';
 import benchPress from '../assets/images/benchPress.jpg';
 import stretchGirl from '../assets/images/stretchGirl.jpeg'
 import groupFitness from '../assets/images/groupFitness.jpg'
+import womanSquats from '../assets/images/womanSquats.jpg'
 import trainerPic from '../assets/images/trainerPic.png'
+import normalVitals from '../assets/images/normalVitals.jpg'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -18,7 +18,7 @@ function LandingPage(props) {
         {
             name: "Bench Press",
             description: "Learn proper technique & form!",
-            image: stretchGirl,
+            image: benchPress,
         },
         {
             name: "Pull ups",
@@ -28,12 +28,12 @@ function LandingPage(props) {
         {
             name: "Squats",
             description: "Connect with our trainers, schedule workouts, follow incentive plans!",
-            image: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/young-woman-doing-squats-on-a-road-at-sunset-royalty-free-image-1645654296.jpg",
+            image: womanSquats,
         },
         {
             name: "Follow & track your vital signs",
             description: "Track, and log vital signs to share with health care professionals to optimize and empower users!",
-            image: "https://agurgentcare.com/wp-content/uploads/2021/04/what-are-normal-vitals.jpeg",
+            image: normalVitals,
         }, 
         {
           name: "Hello new users!",
@@ -69,6 +69,8 @@ function LandingPage(props) {
             items.map( (item, i) => <Item key={i} item={item} />  )
         }
         </Slider>
+        <br/>
+        <Buttons/>
         <Intro/>
         </>
     )
@@ -102,19 +104,25 @@ function LandingPage(props) {
               '@media (maxWidth: 400px)': {}
             }}>{props.item.description}</h3>
             <img alt="images" loading="eager"  style={{objectFit:"cover", display:"block", height:"100%", maxheight:"300px", width:"100%", overflow:"hidden"}}   src={props.item.image}></img>
-            </Paper>                     
-            <div style={{margin: 'auto', textAlign: 'center'}}>
-              <Link to="/mainpage" style={{display: 'inline-block', textDecoration: "none"}}>
-                <Button className="CheckButton" variant="contained" style={{marginTop: "10px"}}>Enter!</Button>
-              </Link>
-              <Link to="/userlogin" style={{display: 'block', textDecoration: "none"}}>
-                <Button className="CheckButton" variant="textd" style={{marginTop: "10px"}}>Login</Button>
-              </Link>
-            </div>
-            
+            </Paper>                                 
           </div>
       </div>
     );
 };
+
+function Buttons(){
+  return(
+    <div style={{margin: 'auto', textAlign: 'center'}}>
+     <Link to="/mainpage" style={{display: 'inline-block', textDecoration: "none"}}>
+      <Button className="CheckButton" variant="contained" style={{marginTop: "10px"}}>Enter!</Button>
+     </Link>
+     <Link to="/userlogin" style={{display: 'block', textDecoration: "none"}}>
+       <Button className="CheckButton" variant="textd" style={{marginTop: "10px"}}>Login</Button>
+     </Link>
+   </div>
+  )
+}
+
+
 
 export default LandingPage;

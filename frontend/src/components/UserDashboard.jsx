@@ -1,15 +1,12 @@
 import ResponsiveAppBar from "./Navbar";
-import { Button } from '@chakra-ui/button';
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useParams } from 'react';
-import stayFitDataService from '../services/stayFitDataService';
+import stayFitDataService from "../services/stayFitDataService";
+import { useState,useEffect } from "react";
+import { useParams } from 'react-router-dom'; 
 
 
 const UserDashboard = () => {
-    // const {id} = useParams();
 
-    // let user = stayFitDataService.findUser(id);
-    // console.log(user);
+    let {id} = useParams(); 
 
     const initialUserInfoState = {
         age: "",
@@ -22,74 +19,77 @@ const UserDashboard = () => {
         respirations: "", 
         o2: "",
         bmi: "",
-        
+        imageUrl: ""
     }
-    const [userInfo, setUserInfo] = useState([initialUserInfoState]);
+    const [userData, setUserData] = useState("")
+    const [updateUserData, setUpdateUserData] = useState("")
+
+const retrieveUserInfo = id => {
+    stayFitDataService.findUser(id)
+    .then(response => {
+        console.log(response.data)
+        setUserData(response.data); 
+    })
+    .catch(error => {
+        console.log(error); 
+    })
+}
+    useEffect(() => {
+        if(id)
+        retrieveUserInfo(id)
+    }, [id])
 
     const handleInputChange = event => {
-        event.preventDefault();
-        const {name, value} = event.target;
-        setUserInfo({...userInfo, [name]: value})
+        event.preventDefault()
+        const {name, value} = event.target
+        setUpdateUserData({...updateUserData, [name]: value})
     }
 
     const saveUserInfo = () => {
 
         var data = {
-            age: userInfo.age,
-            height: userInfo.height,
-            currentWeight: userInfo.currentWeight,
-            targetWeight: userInfo.targetWeight,
-            injuries: userInfo.injuries,
-            hr: userInfo.hr,
-            bp: userInfo.bp,
-            respirations: userInfo.respirations,
-            o2: userInfo.o2,
-            bmi: userInfo.bmi,
+            age: updateUserData.age,
+            height: updateUserData.height,
+            currentWeight: updateUserData.currentWeight,
+            targetWeight: updateUserData.targetWeight,
+            injuries: updateUserData.injuries,
+            hr: updateUserData.hr,
+            bp: updateUserData.bp,
+            respirations: updateUserData.respirations,
+            o2: updateUserData.o2,
+            bmi: updateUserData.bmi,
         }
         stayFitDataService.updateUser(data)
         .then(response => {
             console.log(response.data);
-            setUserInfo(initialUserInfoState)
+            setUpdateUserData(initialUserInfoState)
         })
         .catch(e => {
             console.log(e)
         })
     }
+
+
     return (
-        <>
-        <ResponsiveAppBar/>
-        <h1 style={{ mx: "auto", textAlign: "center" }}>My Dashboard</h1>
-        <div style={{ textAlign: 'center', fontSize: "20px"}} className="submit-form">
-            <br/>
+        <div className="dashboard">
             <div className="form-group">
             <label htmlFor="age">Age</label>
             <input
                 type="number"
                 id="age"
                 required
-                value={userInfo.age}
+                value={updateUserData.age}
                 onChange={handleInputChange}
                 name="age"
             />
             </div>
             <div className="form-group">
-            <label htmlFor="height">Height</label>
-            <input
-                type="number"
-                id="height"
-                required
-                value={userInfo.height}
-                onChange={handleInputChange}
-                name="height"
-            />
-            </div>
-            <div className="form-group">
-            <label htmlFor="currentWeight">Current Weight</label>
+            <label htmlFor="currentWeight">Current weight</label>
             <input
                 type="number"
                 id="currentWeight"
                 required
-                value={userInfo.currentWeight}
+                value={updateUserData.currentWeight}
                 onChange={handleInputChange}
                 name="currentWeight"
             />
@@ -100,7 +100,7 @@ const UserDashboard = () => {
                 type="number"
                 id="targetWeight"
                 required
-                value={userInfo.targetWeight}
+                value={updateUserData.targetWeight}
                 onChange={handleInputChange}
                 name="targetWeight"
             />
@@ -108,32 +108,32 @@ const UserDashboard = () => {
             <div className="form-group">
             <label htmlFor="injuries">Injuries</label>
             <input
-                type="text"
+                type="number"
                 id="injuries"
                 required
-                value={userInfo.injuries}
+                value={updateUserData.injuries}
                 onChange={handleInputChange}
                 name="injuries"
             />
             </div>
             <div className="form-group">
-            <label htmlFor="injuries">HR</label>
+            <label htmlFor="hr">HR</label>
             <input
-                type="text"
-                id="injuries"
+                type="number"
+                id="hr"
                 required
-                value={userInfo.injuries}
+                value={updateUserData.hr}
                 onChange={handleInputChange}
-                name="injuries"
+                name="hr"
             />
             </div>
             <div className="form-group">
-            <label htmlFor="bp">BP</label>
+            <label htmlFor="bp">B/P</label>
             <input
-                type="text"
+                type="number"
                 id="bp"
                 required
-                value={userInfo.bp}
+                value={updateUserData.bp}
                 onChange={handleInputChange}
                 name="bp"
             />
@@ -141,10 +141,10 @@ const UserDashboard = () => {
             <div className="form-group">
             <label htmlFor="respirations">Respirations</label>
             <input
-                type="text"
+                type="number"
                 id="respirations"
                 required
-                value={userInfo.respirations}
+                value={updateUserData.respirations}
                 onChange={handleInputChange}
                 name="respirations"
             />
@@ -152,10 +152,10 @@ const UserDashboard = () => {
             <div className="form-group">
             <label htmlFor="o2">O2</label>
             <input
-                type="text"
+                type="number"
                 id="o2"
                 required
-                value={userInfo.o2}
+                value={updateUserData.o2}
                 onChange={handleInputChange}
                 name="o2"
             />
@@ -163,32 +163,16 @@ const UserDashboard = () => {
             <div className="form-group">
             <label htmlFor="bmi">BMI</label>
             <input
-                type="text"
+                type="number"
                 id="bmi"
                 required
-                value={userInfo.bmi}
+                value={updateUserData.bmi}
                 onChange={handleInputChange}
                 name="bmi"
             />
             </div>
-            <div className="form-group">
-            <label htmlFor="imageUrl">Profile Image URL</label>
-            <input
-                type="text"
-                id="imageUrl"
-                required
-                value={userInfo.imageUrl}
-                onChange={handleInputChange}
-                name="imageUrl"
-            />
-            </div>
-            <br/>
-            <Link to="/userlogin" style={{display: 'inline-block', textDecoration: "none"}}>
-            <Button onclick={saveUserInfo}>Update</Button>
-              </Link>
-            
+            <button onClick={saveUserInfo}>Update</button>
         </div>
-        </>
     )
 }
 

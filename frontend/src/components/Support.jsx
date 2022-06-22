@@ -9,7 +9,7 @@ const Support = () =>{
         <br/>
         <h3>By Email:   support@stayfitapp.com</h3>
         <br/>
-        <h3>By Phone:  562-777-8645</h3>
+        <h3>By Phone:  ###-###-####</h3>
         </div>
         </>
     )

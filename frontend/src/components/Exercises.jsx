@@ -1,17 +1,16 @@
 import { useState, useEffect, useMemo } from 'react';
 import stayFitDataService from '../services/stayFitDataService';
 import ResponsiveAppBar from './Navbar';
-import { Stack, ImageList, ImageListItem, Card, Container, Box } from '@mui/material'
+import { Stack, ImageList, ImageListItem, Card, Container } from '@mui/material'
 
 const ExerciseList = () => {
     const [exercises, setExercises] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState();
-
+    const [selectedExerciseID, setSelectedExerciseID] = useState();
     useEffect(() => {
         retrieveExercises();
     }, []);
 
-        
     const retrieveExercises = async () => {
         await stayFitDataService.getAll()
         .then(response => {
@@ -28,18 +27,20 @@ const ExerciseList = () => {
       setSelectedCategory(event.target.value);
     }
 
+    function handleExerciseLink(event){
+      setSelectedExerciseID(event.target.id)
+      console.log(selectedExerciseID)
+    }
+    
     function getFilteredList(){
       if(!selectedCategory){
         return exercises;
       }
       return exercises.filter((item) => item.category === selectedCategory)
     }
-
     var filteredList = useMemo(getFilteredList, [selectedCategory, exercises]);
     console.log(filteredList);
-
-
-    
+    var exerciseLink = `/exercisedetail/${selectedExerciseID}`
     return (
       <>
         <ResponsiveAppBar/>
@@ -67,54 +68,56 @@ const ExerciseList = () => {
         <h1 style={{ mx: "auto", textAlign: "center" }}>Exercises:</h1>
         <Container className="container" sx={{ mx: "auto", textAlign: "center" }}>
           <Stack spacing={8}>
-          <ImageList 
+          <ImageList
             variant="standard"
-            // gap={12} 
-            sx={{ 
-              mx: "auto", 
-              width: "90%", 
-              height: "100%" 
-            }} 
-            cols={3} 
+            // gap={12}
+            sx={{
+              mx: "auto",
+              width: "90%",
+              height: "100%"
+            }}
+            cols={3}
             // rowHeight={164}
             >
               {!selectedCategory && exercises && exercises.map(exercise => (
                 <>
-                <Card 
-               
-                  key={exercise._id} 
+                <Card
+                  key={exercise._id}
                   sx={{
                     // position: "relative",
                     // width: "26vw",
                     // height: "26vw",
                     // paddingBottom: "100%",
-                  }}>     
-                         
+                  }}>
+                  <h5>{exercise.name}</h5>
                   <ImageListItem key={exercise.index}>
+                    <a href={exerciseLink}>
                     <img
+                      onMouseOver={handleExerciseLink}
                       id={exercise._id}
                       src={`${exercise.imageUrl}?w=164&h=164&fit=crop&auto=format&dpr=2`}
                       alt={exercise.imageUrl}
                       loading='lazy'
                       // sx={{ objectFit: "contain", overFlow: "hidden" }}
                     />
+                    </a>
                   </ImageListItem>
                 </Card>
                 </>
               ))}
                {selectedCategory  && filteredList.map(exercise => (
                 <>
-                <Card 
-               
-                  key={exercise._id} 
+                <Card
+                  key={exercise._id}
                   sx={{
                     // position: "relative",
                     // width: "26vw",
                     // height: "26vw",
                     // paddingBottom: "100%",
-                  }}>     
-                         
+                  }}>
+                  <h5>{exercise.name}</h5>
                   <ImageListItem key={exercise.index}>
+                    <a href={exerciseLink}>
                     <img
                       id={exercise._id}
                       src={`${exercise.imageUrl}?w=164&h=164&fit=crop&auto=format&dpr=2`}
@@ -122,15 +125,15 @@ const ExerciseList = () => {
                       loading='lazy'
                       // sx={{ objectFit: "contain", overFlow: "hidden" }}
                     />
+                    </a>
                   </ImageListItem>
                 </Card>
                 </>
-              ))}             
+              ))}
           </ImageList>
         </Stack>
-        </Container>       
+        </Container>
       </>
     )
 }
-
-export default ExerciseList; 
+export default ExerciseList;

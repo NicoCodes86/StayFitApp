@@ -16,8 +16,9 @@ import Support from "./components/Support";
 import UserProfile from "./components/UserProfile";
 import FirstUserLogin from "./components/FirstTimeLogin";
 import AddExerciseForm from "./components/AddExerciseForm";
-import UserDashboard from "./components/UserDashboard";
+import Trainers from "./components/Trainers";
 import ExerciseDetail from "./components/ExerciseDetail";
+import TrainerDetail from "./components/TrainerDetails";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -28,7 +29,6 @@ root.render(
         <Route path="/landingpage" element={<LandingPage />}></Route>
         <Route path="/mainpage" element={<MainPage />}></Route>
         <Route path="/exercises" element={<Exercises />}></Route>
-        <Route path="/exercisedetails/:id" element={<ExerciseDetail />}></Route>
         <Route path="/addexercise" element={<AddExerciseForm />}></Route>
         <Route path="/userlogin" element={<UserLogin />}></Route>
         <Route path="/firstuserlogin" element={<FirstUserLogin />}></Route>
@@ -36,10 +36,13 @@ root.render(
         <Route path="/registerTrainer" element={<RegisterTrainer />}></Route>
         <Route path="/trainerlogin" element={<TrainerLogin />}></Route>
         <Route path="/trainerdashboard" element={<TrainerDashboard />}></Route>
-        <Route path="/userdashboard" element={<UserDashboard />}></Route>
+        <Route path="/userdashboard" element={<TrainerDashboard />}></Route>
         <Route path="/userprofile" element={<UserProfile />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/support" element={<Support />}></Route>
+        <Route path="/trainers" element={<Trainers />}></Route>
+        <Route path="/exercisedetail/:id" element={<ExerciseDetail />}></Route>
+        <Route path="/trainerdetail/:id" element={<TrainerDetail />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

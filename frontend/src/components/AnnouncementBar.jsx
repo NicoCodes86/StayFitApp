@@ -1,7 +1,5 @@
-import Carousel from "react-material-ui-carousel";
 import { Paper } from "@mui/material";
 import newPersonalTrainer from '../assets/images/newPersonalTrainer.jpg'
-import rowGirl from '../assets/images/rowGirl.jpg'
 import rowGirl2 from '../assets/images/rowGirl2.jpg'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -44,6 +42,7 @@ function Announcements(props) {
     function Item(props) {
 
         return (
+          <>
         <div className="landingPage">
           <div style={{position: 'relative'}}>
             <h1 style={{textAlign: "center", color:"#0b4c8a"}}>Announcements</h1>
@@ -74,9 +73,9 @@ function Announcements(props) {
             </Paper>                                
           </div>
       </div>
+      </>
     );
 };
-
 
 
 export default Announcements;

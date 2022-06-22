@@ -67,20 +67,19 @@ const TrainerLogin = () => {
               setLoading(false);
               trainerLoggedIn = true; 
               setTrainerName(loginInfo.userName);
-              navigate.push("/trainerdashboard"); // redirect to TrainerDashboard
+              navigate("/mainpage"); // redirect to TrainerDashboard
               setLoginInfo(initialLoginState);
           })
 
           } catch (error) {
-            console.log('error is' + error);
-            toast({
-              title: "Error Occurred!",
-              description: error.response.data.message,
-              status: "error",
-              duration: 5000,
-              isClosable: true,
-              position: "bottom",
-            });
+            // toast({
+            //   title: "Error Occurred!",
+            //   description: error.response.data.message,
+            //   status: "error",
+            //   duration: 5000,
+            //   isClosable: true,
+            //   position: "bottom",
+            // });
             setLoading(false);
             trainerLoggedIn = false;
           }

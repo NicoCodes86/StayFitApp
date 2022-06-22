@@ -4,10 +4,8 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { VStack } from "@chakra-ui/layout";
 import Button from "@mui/material/Button";
 import ResponsiveAppBar from './Navbar';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const AddExerciseForm = () => {
-    const navigate = useNavigate();
     const initialExerciseState = {
         name: "",
         description: "",
@@ -38,7 +36,6 @@ const AddExerciseForm = () => {
         stayFitDataService.create(data)
             .then(response => {
                 setExercise(initialExerciseState); 
-                navigate("/exercises");
                 // console.log(response.data)
             })
             .catch(e => {
