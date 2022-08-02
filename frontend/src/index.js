@@ -2,6 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+<<<<<<< HEAD
+import { store } from './app/store';
+import { Provider } from 'react-redux';
+
+=======
 import LandingPage from "./components/LandingPage";
 import MainPage from "./components/MainPage";
 import Exercises from "./components/Exercises";
@@ -19,10 +24,16 @@ import AddExerciseForm from "./components/AddExerciseForm"
 import Trainers from "./components/Trainers"
 import TrainerDetail from "./components/TrainerDetail";
 import ExerciseDetail from "./components/ExerciseDetail";
+>>>>>>> 21ce7f1c812cbba6b14db2119d50d187c23e3126
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+<<<<<<< HEAD
+    <Provider store={store}>
+      <App />
+    </Provider>
+=======
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}></Route>
@@ -45,5 +56,6 @@ root.render(
         <Route path="/trainerdetail/:id" element={<TrainerDetail />}></Route>
       </Routes>
     </BrowserRouter>
+>>>>>>> 21ce7f1c812cbba6b14db2119d50d187c23e3126
   </React.StrictMode>
 );
